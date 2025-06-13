@@ -5,7 +5,7 @@ export default function HeroSection() {
     <div className="relative w-full h-screen overflow-hidden">
       <div className="fixed top-0 left-0 w-full h-full z-[-1] object-cover">
         <Image
-          src="/herof.png"
+          src="/herof.svg"
           alt="Lush farmland with thriving crops"
           width={200}
           height={200}
