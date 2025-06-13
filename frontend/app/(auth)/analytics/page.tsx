@@ -1,4 +1,3 @@
-import NavBar from '@/app/components/Navbar';
 import ChartSection from '@/app/components/ChartSection';
 import MoistureChart from '@/app/components/MoistureChart';
 import TempChart from '@/app/components/TempChart';
