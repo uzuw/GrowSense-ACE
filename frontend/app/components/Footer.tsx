@@ -1,10 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
     <footer className="bg-[#2c3e50] text-white py-10">
       <div className="container mx-auto grid gap-6 md:grid-cols-3">
-
         <div>
           <div className="relative w-[200px] h-[50px] mb-4">
             <Image
@@ -15,7 +15,8 @@ export default function Footer() {
             />
           </div>
           <p className="text-[#ccc] max-w-sm text-[1rem] leading-relaxed">
-            GrowSense: Empowering farmers with tools to boost productivity and thrive.
+            GrowSense: Empowering farmers with tools to boost productivity and
+            thrive.
           </p>
         </div>
 
@@ -25,17 +26,14 @@ export default function Footer() {
           </h3>
           <ul className="space-y-2">
             <li>
-              <a href="/" className="hover:text-[#28a745] transition">
+              <Link href="/" className="hover:text-[#28a745] transition">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/loginPage/login.html"
-                className="hover:text-[#28a745] transition"
-              >
+              <Link href="/login" className="hover:text-[#28a745] transition">
                 Login
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

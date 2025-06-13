@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Link from "next/link";
 
 export default function HowItWorksSection() {
   return (
@@ -44,14 +44,13 @@ export default function HowItWorksSection() {
             </div>
           ))}
         </div>
-        <a
-          href="/loginPage/login.html"
+        <Link
+          href="/login"
           className="inline-block mt-8 px-6 py-3 bg-[#28a745] text-white text-[1.1rem] rounded hover:bg-[#218838] transition"
         >
           Sign Up
-        </a>
+        </Link>
       </div>
     </div>
   );
 }
-
