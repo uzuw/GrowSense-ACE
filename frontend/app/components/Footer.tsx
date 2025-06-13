@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2c3e50] text-white py-10">
-      <div className="container mx-auto grid gap-6 md:grid-cols-3">
+    <footer className="bg-[#2c3e50] text-white py-10 w-full">
+      <div className="w-full px-4 mx-auto grid gap-6 md:grid-cols-3">
         <div>
           <div className="relative w-[200px] h-[50px] mb-4">
             <Image
@@ -80,7 +80,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="text-center mt-10 pt-5 border-t border-[#444] text-[#ccc] text-[0.9rem]">
+      <div className="text-center mt-10 pt-5 border-t border-[#444] text-[#ccc] text-[0.9rem] px-4">
         <p>
           &copy; 2025 GrowSense. All rights reserved.
           <a href="/privacy" className="text-[#28a745] mx-2 hover:underline">
