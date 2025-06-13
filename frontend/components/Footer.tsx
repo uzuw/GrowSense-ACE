@@ -1,22 +1,23 @@
-
 import Image from "next/image";
 
 export default function Footer() {
   return (
     <footer className="bg-[#2c3e50] text-white py-10">
       <div className="container mx-auto grid gap-6 md:grid-cols-3">
-        <div className="relative w-[200px] h-[50px] mb-4">
-          <Image
-            src="/Logo.png"
-            alt="GrowSense Logo"
-            fill
-            style={{ objectFit: "contain" }}
-          />
+
+        <div>
+          <div className="relative w-[200px] h-[50px] mb-4">
+            <Image
+              src="/Logo.png"
+              alt="GrowSense Logo"
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+          <p className="text-[#ccc] max-w-sm text-[1rem] leading-relaxed">
+            GrowSense: Empowering farmers with tools to boost productivity and thrive.
+          </p>
         </div>
-        <p className="text-[#ccc] max-w-sm text-[1rem] leading-relaxed">
-          GrowSense: Empowering farmers with tools to boost productivity and
-          thrive.
-        </p>
 
         <div>
           <h3 className="text-[#28a745] text-[1.5rem] font-bold mb-4">
