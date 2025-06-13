@@ -186,8 +186,8 @@ const Support = () => {
             </div>
           </div>
         </section>
-        <Footer />
       </main>
+      <Footer />
     </div>
   );
 };
