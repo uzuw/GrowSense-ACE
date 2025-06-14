@@ -36,7 +36,7 @@ const Support = () => {
           </div>
           <div className="flex-1">
             <Image
-              src=""
+              src="/agro+tech.jpg"
               alt="Image"
               width={200}
               height={200}
