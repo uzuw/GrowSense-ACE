@@ -20,8 +20,8 @@ app.listen(PORT, () => {
   console.log(`App is listening on port ${PORT}`);
 });
 
-// saveDataAverage();
+saveDataAverage();
 
-// setInterval(() => {
-//   saveDataAverage();
-// }, 1 * 60 * 1000);
+setInterval(() => {
+  saveDataAverage();
+}, 30 * 1000);
