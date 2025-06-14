@@ -1,5 +1,5 @@
-'use client';
-import { useEffect, useRef } from 'react';
+"use client";
+import { useEffect, useRef, useState } from "react";
 import {
   Chart,
   BubbleController,
@@ -8,7 +8,8 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
+import axiosInstance from "@/lib/axiosInstance";
 
 Chart.register(
   BubbleController,
@@ -21,61 +22,82 @@ Chart.register(
 
 export default function TempChart() {
   const chartRef = useRef<HTMLCanvasElement>(null);
-  const timeObject = {
+  const [data, setData] = useState<any>(null);
 
-  }
   useEffect(() => {
-    if (!chartRef.current) return;
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/data/get");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!chartRef.current || !data || !data.hourlyAverage) return;
+
+    // Map data to bubble chart points: x = hour, y = temperature, r = fixed radius
+    const bubbleData = data.hourlyAverage.map(
+      (entry: { timestamp: string | Date; temperature: number }) => {
+        const hour = new Date(entry.timestamp).getHours();
+        return {
+          x: hour,
+          y: entry.temperature,
+          r: 7, // fixed radius, adjust if you want dynamic sizes
+        };
+      }
+    );
 
     const chart = new Chart(chartRef.current, {
-      type: 'bubble',
+      type: "bubble",
       data: {
-        datasets: [{
-          label: 'Temperature Level',
-          data: [
-            { x: 0, y: 50, r: 7 },
-            { x: 24, y: 10, r: 7 },
-          ],
-          backgroundColor: 'rgb(9, 121, 105)'
-        }],
+        datasets: [
+          {
+            label: "Temperature Level",
+            data: bubbleData,
+            backgroundColor: "rgb(9, 121, 105)",
+          },
+        ],
       },
       options: {
-          responsive: true,
-    scales: {
-      y: {
-        title: {
-          display: true,
-          align: 'center',
-          text: 'Temperature Level (°C) →',
-          color: '#212121',
-          font: {
-            family: 'Arial',
-            size: 14,
-         
+        responsive: true,
+        scales: {
+          y: {
+            title: {
+              display: true,
+              align: "center",
+              text: "Temperature Level (°C) →",
+              color: "#212121",
+              font: {
+                family: "Arial",
+                size: 14,
+              },
+            },
           },
-          
+          x: {
+            title: {
+              display: true,
+              align: "center",
+              text: "Time (hours) →",
+              color: "#212121",
+              font: {
+                family: "Arial",
+                size: 14,
+              },
+            },
+            min: 0,
+            max: 24,
+          },
         },
       },
-      x: {
-        title: {
-          display: true,
-          align: 'center',
-          text: 'Time (hours)→',
-          color: '#212121',
-          font: {
-            family: 'Arial',
-            size: 14,
-            
-          },
-          
-        },
-      },
-    },
-  },
     });
 
     return () => chart.destroy();
-  }, []);
+  }, [data]);
 
   return <canvas ref={chartRef} className="w-full max-w-[70%]" />;
 }

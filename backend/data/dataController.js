@@ -35,12 +35,12 @@ export const saveDataAverage = async () => {
       `sample= ${doc.sampleCount} \n moisture= ${doc.tempValue.moisture} \n temperature= ${doc.tempValue.temperature} \n humidity= ${doc.tempValue.humidity}`
     );
 
-    if (doc.sampleCount === 12) {
+    if (doc.sampleCount === 1) {
       const avg = {
         timestamp: now,
-        moisture: doc.tempValue.moisture / 12,
-        temperature: doc.tempValue.temperature / 12,
-        humidity: doc.tempValue.humidity / 12,
+        moisture: doc.tempValue.moisture / 1,
+        temperature: doc.tempValue.temperature / 1,
+        humidity: doc.tempValue.humidity / 1,
       };
 
       doc.hourlyAverage.push(avg);
@@ -71,3 +71,5 @@ router.get("/data/get", async (req, res) => {
   }
   return res.status(200).json({ message: "Data Sent Successfully", data: doc });
 });
+
+export { router as dataController };

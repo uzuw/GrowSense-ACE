@@ -2,6 +2,7 @@ import express from "express";
 import connectDB from "./connectDB.js";
 import cors from "cors";
 import { userController } from "./user/userController.js";
+import { dataController } from "./data/dataController.js";
 import { saveDataAverage } from "./data/dataController.js";
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(cors());
 await connectDB();
 
 app.use(userController);
+app.use(dataController);
 
 const PORT = 8000;
 
@@ -18,8 +20,8 @@ app.listen(PORT, () => {
   console.log(`App is listening on port ${PORT}`);
 });
 
-saveDataAverage();
+// saveDataAverage();
 
-setInterval(() => {
-  saveDataAverage();
-}, 5 * 60 * 1000);
+// setInterval(() => {
+//   saveDataAverage();
+// }, 1 * 60 * 1000);
