@@ -2,7 +2,6 @@ import ChartSection from "@/app/(auth)/analytics/components/ChartSection";
 import MoistureChart from "@/app/(auth)/analytics/components/MoistureChart";
 import TempChart from "@/app/(auth)/analytics/components/TempChart";
 import HumidChart from "@/app/(auth)/analytics/components/HumidChart";
-import PredictionChart from "@/app/(auth)/analytics/components/PredictionChart";
 
 export default function Home() {
   const humidity = "Humidity";
@@ -27,11 +26,7 @@ export default function Home() {
           chartComponent={<HumidChart />}
           description={humidity}
         />
-        <ChartSection
-          chartPosition="right"
-          chartComponent={<PredictionChart />}
-          description={prediction}
-        />
+        
       </div>
     </main>
   );

@@ -32,12 +32,12 @@ export default function MoistureChart() {
     const chart = new Chart(chartRef.current, {
       type: 'line',
       data: {
-        labels: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
+        labels: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
         datasets: [{
           label: 'Moisture Level',
           fill: false,
           borderColor: 'rgb(9, 121, 105)',
-          data: [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15],
+          data: [700, 800, 800, 900, 900, 900, 1000, 1100, 1400, 1400, 1550,4095],
         }],
       },
       options: {

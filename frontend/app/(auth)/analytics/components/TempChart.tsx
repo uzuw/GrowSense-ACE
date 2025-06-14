@@ -21,7 +21,9 @@ Chart.register(
 
 export default function TempChart() {
   const chartRef = useRef<HTMLCanvasElement>(null);
-
+  const timeObject = {
+    
+  }
   useEffect(() => {
     if (!chartRef.current) return;
 

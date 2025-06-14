@@ -26,19 +26,19 @@ Chart.register(
 export default function HumidChart() {
   const chartRef = useRef<HTMLCanvasElement>(null);
 
+  const data = [30,32,33,35,37,28,39,40,42,38,35,37,33,32,32,32,35,36,33,32,30,28,27,25]
   useEffect(() => {
     if (!chartRef.current) return;
-
     const chart = new Chart(chartRef.current, {
       type: 'bar', // ✅ This now works
       data: {
-        labels: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
+        labels:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
         datasets: [
           {
-            label: 'Moisture Level',
+            label: 'Humidity Level',
             backgroundColor: 'rgba(92, 177, 46, 0.61)',
             borderColor: 'rgb(9, 121, 105)',
-            data: [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15],
+            data: data,
           },
         ],
       },
