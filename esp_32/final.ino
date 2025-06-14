@@ -6,11 +6,11 @@
 #include "addons/RTDBHelper.h"
 #include <time.h>
 
-// ESP32 Access Point credentials
+//esp_32 wifi credentials
 const char* AP_SSID = "ESP32";
 const char* AP_PASS = "growsense";
 
-// Firebase credentials
+// Firebase access credentials
 #define API_KEY "AIzaSyCIv249TsVxNXuoZB9E_aPJwDK5l9ZjH6Y"
 #define DATABASE_URL "https://growsense-51fc4-default-rtdb.asia-southeast1.firebasedatabase.app"
 
@@ -32,6 +32,7 @@ String storedSSID, storedPassword;
 unsigned long previousMillis = 0;
 const long interval = 2000;
 
+//decoding ascii values
 String urlDecode(String input) {
   String decoded = "";
   char c;
@@ -47,6 +48,7 @@ String urlDecode(String input) {
   return decoded;
 }
 
+//wotor pump functions
 void pumpOn() {
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
@@ -57,6 +59,7 @@ void pumpOff() {
   digitalWrite(IN2, LOW);
 }
 
+//connecting esp to wifi
 void connectToWiFi() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(storedSSID.c_str(), storedPassword.c_str());
@@ -133,7 +136,10 @@ void readSensorsAndUpload() {
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
   int moisture = analogRead(MOISTURE_PIN);
-
+  if (moisture == 0)
+  {
+    moisture = 300;
+  }
   if (isnan(humidity) || isnan(temperature)) {
     Serial.println("Failed to read from DHT!");
     return;
@@ -145,9 +151,6 @@ void readSensorsAndUpload() {
   Firebase.RTDB.setInt(&fbdo, "/sensor/moisture", moisture);
 }
 
-void esp_connected() {
-  Firebase.RTDB.setInt(&fbdo, "/status/esp32", 1);
-}
 
 void esp_onlinetime() {
   static unsigned long lastSent = 0;
@@ -170,7 +173,7 @@ void handlePumpControl() {
   }
   if (mode == "AUTO") {
     int moisture = analogRead(MOISTURE_PIN);
-    if (moisture > 3000) {
+    if (moisture > 1000) {
       pumpOn();
       Firebase.RTDB.setString(&fbdo, "/control/pump", "ON");
     } else {
@@ -233,7 +236,6 @@ void loop() {
     previousMillis = currentMillis;
     readSensorsAndUpload();
     handlePumpControl();
-    esp_connected();
     esp_onlinetime();
   }
 }
