@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function PumpControl() {
+const PumpControl = ({ data }) => {
   const [mode, setMode] = useState("manual");
 
   return (
@@ -55,7 +55,6 @@ export default function PumpControl() {
           </p>
         </div>
 
-        {/* Right Column */}
         <div className="flex-1 space-y-4">
           <fieldset className="flex items-center gap-6">
             <label className="flex items-center gap-2">
@@ -101,4 +100,6 @@ export default function PumpControl() {
       </form>
     </section>
   );
-}
+};
+
+export default PumpControl;

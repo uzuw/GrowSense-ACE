@@ -40,7 +40,7 @@ export interface FirebaseData {
   status: StatusData;
 }
 
-export async function getDataFromFirebase(): Promise<FirebaseData | null> {
+const getFirebaseData = async (): Promise<FirebaseData | null> => {
   try {
     const ref: Reference = db.ref("/");
     const snapshot: DataSnapshot = await ref.once("value");
@@ -68,6 +68,6 @@ export async function getDataFromFirebase(): Promise<FirebaseData | null> {
     console.error("Error fetching data from Firebase:", error.message);
     return null;
   }
-}
+};
 
-export default getDataFromFirebase;
+export default getFirebaseData;
