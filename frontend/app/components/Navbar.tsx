@@ -8,7 +8,6 @@ const links = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Analytics", href: "/analytics" },
   { label: "Control", href: "/control" },
-  { label: "Connect", href: "/connect" },
   { label: "Support", href: "/support" },
 ];
 
@@ -47,14 +46,15 @@ export default function Navbar() {
               </div>
             ))}
             <li>
-              <Button variant="contained" color="primary">
-                Login
-              </Button>
+              <Link href="/login">
+                <Button variant="contained" color="primary">
+                  Login
+                </Button>
+              </Link>
             </li>
           </ul>
         </div>
       </nav>
-      <div className="h-[10vh]" />
     </>
   );
 }

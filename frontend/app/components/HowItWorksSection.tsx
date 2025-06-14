@@ -45,7 +45,7 @@ export default function HowItWorksSection() {
           ))}
         </div>
         <Link
-          href="/login"
+          href="/register"
           className="inline-block mt-8 px-6 py-3 bg-[#28a745] text-white text-[1.1rem] rounded hover:bg-[#218838] transition"
         >
           Sign Up

@@ -17,8 +17,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-
-
 const LoginForm = () => {
   const router = useRouter();
 
@@ -41,7 +39,7 @@ const LoginForm = () => {
   });
 
   return (
-    <Box className="flex flex-col">
+    <Box className="flex flex-col bg-white rounded-2xl">
       {isPending && <LinearProgress color="warning" />}
       <Formik
         initialValues={{
@@ -89,14 +87,14 @@ const LoginForm = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  color="warning"
+                  color="success"
                   disabled={isPending}
                 >
                   submit
                 </Button>
 
                 <Link
-                  className="text-orange-400 hover:text-orange-600"
+                  className="text-emerald-500 hover:text-emerald-700"
                   href="/register"
                 >
                   New here? Create Account
