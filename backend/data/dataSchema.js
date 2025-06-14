@@ -9,28 +9,20 @@ const dataSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  tempValue: {
-    type: {
-      moisture: { type: Number, default: 0 },
-      temperature: { type: Number, default: 0 },
-      humidity: { type: Number, default: 0 },
-    },
-    default: () => ({ moisture: 0, temperature: 0, humidity: 0 }),
-  },
-  moistureAvg: {
+  moistureValues: {
     type: [Number],
+    default: () => new Array(25).fill(0),
     required: true,
-    default: Array(25).fill(0), // 0 to 24 hours
   },
-  temperatureAvg: {
+  temperatureValues: {
     type: [Number],
+    default: () => new Array(25).fill(0),
     required: true,
-    default: Array(25).fill(0),
   },
-  humidityAvg: {
+  humidityValues: {
     type: [Number],
+    default: () => new Array(25).fill(0),
     required: true,
-    default: Array(25).fill(0),
   },
 });
 

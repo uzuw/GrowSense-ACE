@@ -25,13 +25,15 @@ Chart.register(
 );
 
 export default function MoistureChart() {
-  const [data, setData] = useState<any>(null);
+  const [moistureData, setMoistureData] = useState<number[]>([]);
+  const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get("/data/get");
-        setData(response.data);
+        const moisture = response.data?.data?.moistureValues || [];
+        setMoistureData(moisture);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -40,36 +42,25 @@ export default function MoistureChart() {
     fetchData();
   }, []);
 
-  const chartRef = useRef<HTMLCanvasElement>(null);
-
   useEffect(() => {
-    if (!chartRef.current || !data || !data.hourlyAverage) return;
+    if (!chartRef.current || !moistureData.length) return;
 
-    // Extract moisture levels from hourlyAverage
-    const moistureLevels = data.hourlyAverage.map(
-      (entry: { moisture: number }) => entry.moisture
-    );
-
-    // Optional: Use timestamps for labels (hours)
-    const labels = data.hourlyAverage.map(
-      (entry: { timestamp: string | Date }) => {
-        const date = new Date(entry.timestamp);
-        return date.getHours();
-      }
-    );
+    const labels = moistureData.map((_, index) => `${index}:00`);
 
     const chart = new Chart(chartRef.current, {
       type: "line",
       data: {
-        labels: labels.length
-          ? labels
-          : [...Array(moistureLevels.length).keys()],
+        labels,
         datasets: [
           {
             label: "Moisture Level",
             fill: false,
             borderColor: "rgb(9, 121, 105)",
-            data: moistureLevels,
+            backgroundColor: "rgba(9, 121, 105, 0.2)",
+            pointBackgroundColor: "rgb(9, 121, 105)",
+            pointRadius: 4,
+            data: moistureData,
+            tension: 0.3,
           },
         ],
       },
@@ -80,19 +71,20 @@ export default function MoistureChart() {
             title: {
               display: true,
               align: "center",
-              text: "Moisture Level (m³) →",
+              text: "Moisture Level (m³)",
               color: "#212121",
               font: {
                 family: "Arial",
                 size: 14,
               },
             },
+            beginAtZero: true,
           },
           x: {
             title: {
               display: true,
               align: "center",
-              text: "Time (hours) →",
+              text: "Time (Hours)",
               color: "#212121",
               font: {
                 family: "Arial",
@@ -101,11 +93,16 @@ export default function MoistureChart() {
             },
           },
         },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
       },
     });
 
     return () => chart.destroy();
-  }, [data]);
+  }, [moistureData]);
 
   return <canvas ref={chartRef} className="w-full max-w-[70%]" />;
 }

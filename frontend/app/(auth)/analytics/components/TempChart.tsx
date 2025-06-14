@@ -8,6 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  CategoryScale,
 } from "chart.js";
 import axiosInstance from "@/lib/axiosInstance";
 
@@ -17,18 +18,20 @@ Chart.register(
   LinearScale,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  CategoryScale
 );
 
 export default function TempChart() {
   const chartRef = useRef<HTMLCanvasElement>(null);
-  const [data, setData] = useState<any>(null);
+  const [temperatureValues, setTemperatureValues] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get("/data/get");
-        setData(response.data);
+        const tempData = response.data?.data?.temperatureValues || [];
+        setTemperatureValues(tempData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -38,19 +41,13 @@ export default function TempChart() {
   }, []);
 
   useEffect(() => {
-    if (!chartRef.current || !data || !data.hourlyAverage) return;
+    if (!chartRef.current || !temperatureValues.length) return;
 
-    // Map data to bubble chart points: x = hour, y = temperature, r = fixed radius
-    const bubbleData = data.hourlyAverage.map(
-      (entry: { timestamp: string | Date; temperature: number }) => {
-        const hour = new Date(entry.timestamp).getHours();
-        return {
-          x: hour,
-          y: entry.temperature,
-          r: 7, // fixed radius, adjust if you want dynamic sizes
-        };
-      }
-    );
+    const bubbleData = temperatureValues.map((temp, index) => ({
+      x: index, // Hour of the day
+      y: temp, // Temperature value
+      r: 7, // Radius of each bubble (static)
+    }));
 
     const chart = new Chart(chartRef.current, {
       type: "bubble",
@@ -66,23 +63,11 @@ export default function TempChart() {
       options: {
         responsive: true,
         scales: {
-          y: {
-            title: {
-              display: true,
-              align: "center",
-              text: "Temperature Level (°C) →",
-              color: "#212121",
-              font: {
-                family: "Arial",
-                size: 14,
-              },
-            },
-          },
           x: {
             title: {
               display: true,
               align: "center",
-              text: "Time (hours) →",
+              text: "Time (hours)",
               color: "#212121",
               font: {
                 family: "Arial",
@@ -91,13 +76,34 @@ export default function TempChart() {
             },
             min: 0,
             max: 24,
+            ticks: {
+              stepSize: 1,
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              align: "center",
+              text: "Temperature Level (°C)",
+              color: "#212121",
+              font: {
+                family: "Arial",
+                size: 14,
+              },
+            },
+            beginAtZero: true,
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
           },
         },
       },
     });
 
     return () => chart.destroy();
-  }, [data]);
+  }, [temperatureValues]);
 
   return <canvas ref={chartRef} className="w-full max-w-[70%]" />;
 }

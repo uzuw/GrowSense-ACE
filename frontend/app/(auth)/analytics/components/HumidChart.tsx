@@ -24,13 +24,15 @@ Chart.register(
 );
 
 export default function HumidChart() {
-  const [data, setData] = useState<any>(null);
+  const [humidityData, setHumidityData] = useState<number[]>([]);
+  const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get("/data/get");
-        setData(response.data);
+        const humidity = response.data?.data?.humidityValues || [];
+        setHumidityData(humidity);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -39,35 +41,22 @@ export default function HumidChart() {
     fetchData();
   }, []);
 
-  const chartRef = useRef<HTMLCanvasElement>(null);
-
   useEffect(() => {
-    if (!chartRef.current || !data || !data.hourlyAverage) return;
+    if (!chartRef.current || !humidityData.length) return;
 
-    
-    const humidityLevels = data.hourlyAverage.map(
-      (entry: { humidity: number }) => entry.humidity
-    );
-
-    const labels = data.hourlyAverage.map(
-      (entry: { timestamp: string | Date }) => {
-        const date = new Date(entry.timestamp);
-        return date.getHours();
-      }
-    );
+    const labels = humidityData.map((_, index) => `${index}:00`);
 
     const chart = new Chart(chartRef.current, {
       type: "bar",
       data: {
-        labels: labels.length
-          ? labels
-          : [...Array(humidityLevels.length).keys()],
+        labels,
         datasets: [
           {
-            label: "Humidity Level",
+            label: "Humidity Level (%)",
             backgroundColor: "rgba(92, 177, 46, 0.61)",
             borderColor: "rgb(9, 121, 105)",
-            data: humidityLevels,
+            borderWidth: 1,
+            data: humidityData,
           },
         ],
       },
@@ -77,20 +66,19 @@ export default function HumidChart() {
           y: {
             title: {
               display: true,
-              align: "center",
-              text: "Humidity Level (m³) →",
+              text: "Humidity Level (%)",
               color: "#212121",
               font: {
                 family: "Arial",
                 size: 14,
               },
             },
+            beginAtZero: true,
           },
           x: {
             title: {
               display: true,
-              align: "center",
-              text: "Time (hours) →",
+              text: "Time (Hours)",
               color: "#212121",
               font: {
                 family: "Arial",
@@ -99,11 +87,16 @@ export default function HumidChart() {
             },
           },
         },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
       },
     });
 
     return () => chart.destroy();
-  }, [data]);
+  }, [humidityData]);
 
   return <canvas ref={chartRef} className="w-full max-w-[70%]" />;
 }

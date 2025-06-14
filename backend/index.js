@@ -1,32 +1,30 @@
 import express from "express";
+import connectDB from "./connectDB.js";
 import cors from "cors";
-import admin from "firebase-admin";
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const serviceAccountPath = join(__dirname, "serviceAccountKey.json");
-const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, "utf8"));
+import { userController } from "./user/userController.js";
+import { dataController, saveDataAverage } from "./data/dataController.js";
+import admin from "./firebaseAdmin.js"; // ⬅️ Imported from separate file
 
 const app = express();
-const port = 8000;  // <-- Changed from 3000 to 4000
-
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://growsense-51fc4-default-rtdb.asia-southeast1.firebasedatabase.app/"
-});
+// Connect to MongoDB
+await connectDB();
 
+// Routes
+app.use(userController);
+app.use(dataController);
+
+// Firebase Realtime Database
 const db = admin.database();
 
+// Base route
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });
 
+// Fetch sensor/control/status data from Firebase Realtime Database
 app.get("/data", async (req, res) => {
   try {
     const snapshot = await db.ref("/").once("value");
@@ -52,6 +50,7 @@ app.get("/data", async (req, res) => {
   }
 });
 
+// Update control values in Firebase
 app.post("/control", async (req, res) => {
   try {
     const { mode, pump } = req.body;
@@ -68,6 +67,12 @@ app.post("/control", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+// Start server
+const PORT = 8000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Start averaging process
+saveDataAverage();
+setInterval(saveDataAverage, 60 * 60 * 1000);
