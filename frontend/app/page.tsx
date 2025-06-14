@@ -3,7 +3,9 @@ import FeatureSection from "@/app/components/FeatureSection";
 import HowItWorksSection from "@/app/components/HowItWorksSection";
 import Footer from "@/app/components/Footer";
 
-export default function HomePage() {
+
+const HomePage = () => {
+  
   return (
     <>
       <HeroSection />
@@ -12,4 +14,5 @@ export default function HomePage() {
       <Footer />
     </>
   );
-}
+};
+export default HomePage;

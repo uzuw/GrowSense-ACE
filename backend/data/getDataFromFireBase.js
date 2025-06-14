@@ -1,4 +1,3 @@
-// getDataFromFirebase.js
 import { createRequire } from "module";
 import admin from "firebase-admin";
 
