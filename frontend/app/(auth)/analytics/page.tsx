@@ -7,7 +7,6 @@ export default function Home() {
   const humidity = "Humidity";
   const moisture = "Moisture";
   const temperature = "Temperature";
-  const prediction = "Prediction";
   return (
     <main className="bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto ">

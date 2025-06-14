@@ -49,7 +49,7 @@ export default function HumidChart() {
         title: {
           display: true,
           align: 'center',
-          text: 'Humidity Level →',
+          text: 'Humidity Level (m³)→',
           color: '#212121',
           font: {
             family: 'Arial',
@@ -63,7 +63,7 @@ export default function HumidChart() {
         title: {
           display: true,
           align: 'center',
-          text: 'Time →',
+          text: 'Time (hours) →',
           color: '#212121',
           font: {
             family: 'Arial',
@@ -71,7 +71,7 @@ export default function HumidChart() {
             
           },
           
-        },
+        }, 
       },
     },
   },

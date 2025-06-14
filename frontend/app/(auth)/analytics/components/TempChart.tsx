@@ -46,7 +46,7 @@ export default function TempChart() {
         title: {
           display: true,
           align: 'center',
-          text: 'Temperature Level →',
+          text: 'Temperature Level (°C) →',
           color: '#212121',
           font: {
             family: 'Arial',
@@ -60,7 +60,7 @@ export default function TempChart() {
         title: {
           display: true,
           align: 'center',
-          text: 'Time →',
+          text: 'Time (hours)→',
           color: '#212121',
           font: {
             family: 'Arial',

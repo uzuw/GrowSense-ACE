@@ -47,7 +47,7 @@ export default function MoistureChart() {
         title: {
           display: true,
           align: 'center',
-          text: 'Moisture Level →',
+          text: 'Moisture Level (m³)→',
           color: '#212121',
           font: {
             family: 'Arial',
@@ -61,7 +61,7 @@ export default function MoistureChart() {
         title: {
           display: true,
           align: 'center',
-          text: 'Time →',
+          text: 'Time (hours)→',
           color: '#212121',
           font: {
             family: 'Arial',
