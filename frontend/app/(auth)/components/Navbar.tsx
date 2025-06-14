@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@mui/material/Button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const links = [
   { label: "Dashboard", href: "/dashboard" },
@@ -13,6 +13,12 @@ const links = [
 
 export default function Navbar() {
   const pathName = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    router.push("/");
+  };
   return (
     <>
       <nav className="top-0 left-0 w-full bg-transparent backdrop-blur z-50">
@@ -46,11 +52,13 @@ export default function Navbar() {
               </div>
             ))}
             <li>
-              <Link href="/login">
-                <Button variant="contained" color="primary">
-                  Login
-                </Button>
-              </Link>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
             </li>
           </ul>
         </div>
