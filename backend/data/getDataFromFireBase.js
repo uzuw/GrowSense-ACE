@@ -1,5 +1,9 @@
+// getDataFromFirebase.js
+import { createRequire } from "module";
 import admin from "firebase-admin";
-import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
+
+const require = createRequire(import.meta.url);
+const serviceAccount = require("./serviceAccountKey.json");
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -10,6 +14,7 @@ if (!admin.apps.length) {
 }
 
 const db = admin.database();
+
 const getDataFromFirebase = async () => {
   try {
     const snapshot = await db.ref("sensor").once("value");

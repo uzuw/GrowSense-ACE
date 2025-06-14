@@ -1,9 +1,11 @@
 import express from "express";
-import DataTable from "./dataSchema";
+import DataTable from "./dataSchema.js";
+import getDataFromFirebase from "./getDataFromFireBase.js";
 
 const router = express.Router();
 
 export const saveDataAverage = async () => {
+  let sampleCount = 0;
   try {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
