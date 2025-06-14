@@ -48,7 +48,7 @@ const chartRef = useRef<HTMLCanvasElement>(null);
         title: {
           display: true,
           align: 'center',
-          text: 'Humidity Level →',
+          text: 'Humidity Level (m³)→',
           color: '#212121',
           font: {
             family: 'Arial',
@@ -62,7 +62,7 @@ const chartRef = useRef<HTMLCanvasElement>(null);
         title: {
           display: true,
           align: 'center',
-          text: 'Time →',
+          text: 'Time (hours) →',
           color: '#212121',
           font: {
             family: 'Arial',
@@ -70,7 +70,7 @@ const chartRef = useRef<HTMLCanvasElement>(null);
             
           },
           
-        },
+        }, 
       },
     },
   },
