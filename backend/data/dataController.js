@@ -5,57 +5,47 @@ import getDataFromFirebase from "./getDataFromFireBase.js";
 const router = express.Router();
 
 export const saveDataAverage = async () => {
-  let sampleCount = 0;
   try {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
+    const now = new Date();
+    const dateString = now.toISOString().split("T")[0];
 
     const data = await getDataFromFirebase();
 
-    let doc = await DataTable.findOne({ dateOfData: startOfToday });
+    let doc = await DataTable.findOne({ dateOfData: dateString });
 
     if (!doc) {
       doc = new DataTable({
-        dateOfData: startOfToday,
-        tempValue: [{ moisture: 0, temperature: 0, humidity: 0 }],
+        dateOfData: dateString,
+        tempValue: { moisture: 0, temperature: 0, humidity: 0 },
+        sampleCount: 0,
         hourlyAverage: [],
       });
-      sampleCount = 0;
     }
 
-    let temp = doc.tempValue[0] || { moisture: 0, temperature: 0, humidity: 0 };
+    doc.tempValue.moisture += data.moisture;
+    doc.tempValue.temperature += data.temperature;
+    doc.tempValue.humidity += data.humidity;
+    doc.sampleCount += 1;
 
-    temp.moisture += data.moisture;
-    temp.temperature += data.temperature;
-    temp.humidity += data.humidity;
+    if (doc.sampleCount === 12) {
+      const avg = {
+        timestamp: now,
+        moisture: doc.tempValue.moisture / 12,
+        temperature: doc.tempValue.temperature / 12,
+        humidity: doc.tempValue.humidity / 12,
+      };
 
-    doc.tempValue[0] = temp;
-    sampleCount++;
+      doc.hourlyAverage.push(avg);
 
-    if (sampleCount === 12) {
-      const avgMoisture = temp.moisture / 12;
-      const avgTemperature = temp.temperature / 12;
-      const avgHumidity = temp.humidity / 12;
+      doc.tempValue = { moisture: 0, temperature: 0, humidity: 0 };
+      doc.sampleCount = 0;
 
-      doc.hourlyAverage.push({
-        moisture: avgMoisture,
-        temperature: avgTemperature,
-        humidity: avgHumidity,
-      });
-
-      doc.tempValue[0] = { moisture: 0, temperature: 0, humidity: 0 };
-      sampleCount = 0;
-
-      console.log(
-        `Saved hourly average for ${startOfToday.toDateString()}. Total hours: ${
-          doc.hourlyAverage.length
-        }`
-      );
+      console.log(`Hourly average stored at ${now.toLocaleTimeString()}`);
     }
 
     await doc.save();
-  } catch (error) {
-    console.error("Error in saveDataAverage:", error);
+  } catch (err) {
+    console.error("Error in saveDataAverage:", err);
   }
 };
 
