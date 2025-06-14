@@ -41,8 +41,38 @@ export default function MoistureChart() {
         }],
       },
       options: {
-        responsive: true,
+          responsive: true,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          align: 'center',
+          text: 'Moisture Level →',
+          color: '#212121',
+          font: {
+            family: 'Arial',
+            size: 14,
+         
+          },
+          
+        },
       },
+      x: {
+        title: {
+          display: true,
+          align: 'center',
+          text: 'Time →',
+          color: '#212121',
+          font: {
+            family: 'Arial',
+            size: 14,
+            
+          },
+          
+        },
+      },
+    },
+  },
     });
 
     return () => chart.destroy();

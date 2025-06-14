@@ -42,9 +42,40 @@ export default function HumidChart() {
           },
         ],
       },
-      options: {
-        responsive: true,
+        options: {
+          responsive: true,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          align: 'center',
+          text: 'Humidity Level →',
+          color: '#212121',
+          font: {
+            family: 'Arial',
+            size: 14,
+         
+          },
+          
+        },
       },
+      x: {
+        title: {
+          display: true,
+          align: 'center',
+          text: 'Time →',
+          color: '#212121',
+          font: {
+            family: 'Arial',
+            size: 14,
+            
+          },
+          
+        },
+      },
+    },
+  },
+
     });
 
     return () => chart.destroy(); // ✅ Prevent memory leaks
