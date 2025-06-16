@@ -47,7 +47,7 @@ Through integrated AI models and external APIs, GrowSense delivers valuable insi
 - Express.js
 
 ### Database:
--Firebase ( for real time data )
+- Firebase (Real-time data)
 - MongoDB
 
 ### Frontend:
