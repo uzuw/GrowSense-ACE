@@ -1,56 +1,90 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { FaUserPlus, FaSeedling, FaBrain } from "react-icons/fa";
+
+const steps = [
+  {
+    icon: <FaUserPlus className="text-5xl text-green-600" />,
+    gif: "/signup.gif",
+    title: "Sign Up",
+    desc: "Create a free account in minutes.",
+  },
+  {
+    icon: <FaSeedling className="text-5xl text-green-600" />,
+    gif: "/setup.gif",
+    title: "Set Up Your Farm",
+    desc: "Input your crops, land details, and preferences.",
+  },
+  {
+    icon: <FaBrain className="text-5xl text-green-600" />,
+    gif: "/smart.gif",
+    title: "Grow Smarter",
+    desc: "Access tools, insights, and resources to succeed.",
+  },
+];
 
 export default function HowItWorksSection() {
   return (
-    <div className="py-16 text-center bg-white">
-      <div className="container mx-auto">
-        <h2 className="text-[2.5rem] text-[#2c3e50] font-bold mb-10">
+    <section className="py-20 bg-white text-center">
+      <div className="container mx-auto px-4">
+        <motion.h2
+          className="text-4xl md:text-5xl font-bold text-[#2c3e50] mb-14"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           Get Started in 3 Easy Steps
-        </h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            {
-              icon: "/signup.gif",
-              title: "Sign Up",
-              desc: "Create a free account in minutes.",
-            },
-            {
-              icon: "/setup.gif",
-              title: "Set Up Your Farm",
-              desc: "Input your crops, land details, and preferences.",
-            },
-            {
-              icon: "/smart.gif",
-              title: "Grow Smarter",
-              desc: "Access tools, insights, and resources to succeed.",
-            },
-          ].map((s, i) => (
-            <div
-              key={i}
-              className="bg-[#f8f9fa] p-5 rounded-lg transition-transform hover:-translate-y-1"
+        </motion.h2>
+
+        <div className="grid gap-8 md:grid-cols-3">
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transform transition duration-300"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2, duration: 0.6 }}
             >
-              <Image
-                src={s.icon}
-                alt={s.title + " Icon"}
-                width={200}
-                height={200}
-                className="w-[60px] h-[60px] mb-4 mx-auto"
-              />
-              <h3 className="text-[#28a745] text-[1.5rem] mb-2">{s.title}</h3>
-              <p className="text-[#555] text-[1rem] leading-relaxed">
-                {s.desc}
+              <div className="flex justify-center items-center mb-4">
+                {step.icon}
+              </div>
+
+              <div className="mb-4">
+                <Image
+                  src={step.gif}
+                  alt={`${step.title} Icon`}
+                  width={100}
+                  height={100}
+                  className="mx-auto rounded"
+                />
+              </div>
+
+              <h3 className="text-xl md:text-2xl text-[#28a745] font-semibold mb-2">
+                {step.title}
+              </h3>
+              <p className="text-[#555] text-base leading-relaxed">
+                {step.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
-        <Link
-          href="/register"
-          className="inline-block mt-8 px-6 py-3 bg-[#28a745] text-white text-[1.1rem] rounded hover:bg-[#218838] transition"
+
+        <motion.div
+          className="mt-10"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
         >
-          Sign Up
-        </Link>
+          <Link
+            href="/register"
+            className="inline-block px-8 py-3 bg-[#28a745] text-white text-lg rounded-full font-medium hover:bg-[#218838] transition"
+          >
+            Sign Up
+          </Link>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

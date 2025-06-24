@@ -1,54 +1,75 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
+
+const features = [
+  {
+    title: "Crop Management",
+    desc: "Monitor soil health, track crop growth, and optimize yields with real-time data.",
+    icon: "/crop-icon.png",
+  },
+  {
+    title: "Market Insights",
+    desc: "Stay ahead with live market prices and trends for your crops.",
+    icon: "/market-icon.png",
+  },
+  {
+    title: "Weather Updates",
+    desc: "Get accurate, localized weather forecasts to plan planting and harvesting.",
+    icon: "/weather-icon.gif", // GIF plays by default
+  },
+  {
+    title: "Community & Resources",
+    desc: "Access expert advice, farming tips, and connect with a community of growers.",
+    icon: "/community-icon.gif", // GIF plays by default
+  },
+];
 
 export default function FeatureSection() {
   return (
-    <div className="py-16 text-center bg-[#EDEADE]">
-      <div className="container mx-auto">
-        <h2 className="text-[2.5rem] font-bold text-[#2c3e50] mb-10">
+    <section className="bg-[#F5F5F5] py-24 font-sans">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.h2
+          className="text-4xl md:text-5xl font-extrabold text-[#1A202C] text-center mb-16 tracking-tight leading-tight"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           Tools to Grow Your Farm
-        </h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              icon: "/crop-icon.png",
-              title: "Crop Management",
-              desc: "Monitor soil health, track crop growth, and optimize yields with real-time data.",
-            },
-            {
-              icon: "/market-icon.png",
-              title: "Market Insights",
-              desc: "Stay ahead with live market prices and trends for your crops.",
-            },
-            {
-              icon: "/weather-icon.gif",
-              title: "Weather Updates",
-              desc: "Get accurate, localized weather forecasts to plan planting and harvesting.",
-            },
-            {
-              icon: "/community-icon.gif",
-              title: "Community & Resources",
-              desc: "Access expert advice, farming tips, and connect with a community of growers.",
-            },
-          ].map((f, i) => (
-            <div
-              key={i}
-              className="bg-white p-5 rounded-lg shadow-md hover:-translate-y-1 transition-transform"
+        </motion.h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl border border-gray-200 transition-all duration-300 hover:-translate-y-2"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.15, duration: 0.6 }}
+              viewport={{ once: true }}
             >
-              <Image
-                src={f.icon}
-                alt={f.title + " Icon"}
-                width={200}
-                height={200}
-                className="w-[60px] h-[60px] mb-4 mx-auto"
-              />
-              <h3 className="text-[#28a745] text-[1.5rem] mb-2">{f.title}</h3>
-              <p className="text-[#555] text-[1rem] leading-relaxed">
-                {f.desc}
+              <div className="w-[72px] h-[72px] mx-auto mb-5">
+                <Image
+                  src={feature.icon}
+                  alt={`${feature.title} Icon`}
+                  width={72}
+                  height={72}
+                  className="object-contain"
+                />
+              </div>
+
+              <h3 className="text-xl font-semibold text-[#256029] mb-2 text-center">
+                {feature.title}
+              </h3>
+              <p className="text-gray-700 text-sm text-center leading-relaxed">
+                {feature.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
